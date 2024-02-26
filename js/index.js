@@ -12,7 +12,6 @@ function appStart() {
 
   const gameover = () => {
     window.removeEventListener("keydown", handleKeydown); // 게임이 종료되면 key 입력이 되지 않음
-    
   };
 
   const handleEnterKey = () => {
