@@ -1,0 +1,26 @@
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px; /* row들을 떨어뜨림 */
+  padding: 10px 0 10px 0;
+}
+.board-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px; /* border-row 안의 5개의 div들을 서로 떨어뜨림 */
+}
+
+.board-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--border-color);
+  width: 50px;
+  height: 50px;
+}
+.time {
+  font-weight: bold;
+}

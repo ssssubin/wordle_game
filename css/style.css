@@ -1,0 +1,7 @@
+@import "reset.css";
+@import "header.css";
+@import "main.css";
+@import "footer.css";
+:root {
+  --border-color: #d3d6da;
+}
