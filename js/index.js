@@ -2,7 +2,7 @@ const 정답 = "APPLE";
 let index = 0;
 let attempts = 0; //시도하는 개수, row
 let timer;
-
+const rotate = [{ transform: "rotate(360deg)" }];
 function appStart() {
   const displayGameOver = () => {
     const div = document.createElement("div"); // div라는 element 만듦
@@ -13,14 +13,16 @@ function appStart() {
   };
   //로직들
   const nextLine = () => {
-    if (attempts === 6) return gameover();
+    if (attempts === 5) {
+      displayGameOver();
+      return gameover();
+    }
     attempts += 1;
     index = 0;
   };
 
   const gameover = () => {
     window.removeEventListener("keydown", handleKeydown); // 게임이 종료되면 key 입력이 되지 않음
-    displayGameOver();
     clearInterval(timer); // 게임이 끝나면 interval을 clear 시킴 => 타이머 멈춤
   };
 
@@ -35,20 +37,34 @@ function appStart() {
 
       const 입력한_글자 = block.innerText;
       const 정답_글자 = 정답[i];
+      const keyboard = document.querySelector(
+        `.keyboard-block[data-key='${block.innerText}']`
+      );
 
       if (입력한_글자 === 정답_글자) {
         맞은_갯수 += 1;
         block.style.backgroundColor = "#6baa64";
+        keyboard.style.backgroundColor = "#6baa64";
       } else if (정답.includes(입력한_글자)) {
         //입력한 글자가 정답 안에 포함되어 있을 때
         block.style.backgroundColor = "#cab458";
       } else {
         block.style.backgroundColor = "#787c7e";
+        keyboard.style.backgroundColor = "#787c7e";
       }
       block.style.color = "white";
     }
-    if (맞은_갯수 === 5) gameover();
-    else nextLine();
+    if (맞은_갯수 === 5) {
+      const good = document.createElement("div");
+      good.innerText = "축하합니다! 정답입니다!!!!";
+      good.style =
+        "display:flex; justify-content:center; align-items:center; position:absolute; top:35vh; left:44vw; background-color:#6baa64; color:white; font-weight:bold; width:200px; height:100px; transition: all 2s ease-in-out;";
+      document.body.appendChild(good);
+      good.animate(rotate, 2000);
+      gameover();
+    } else {
+      nextLine();
+    }
   };
 
   //backspace 눌렀을 때 지워지도록
