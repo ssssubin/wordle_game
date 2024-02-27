@@ -1,8 +1,16 @@
 const 정답 = "APPLE";
 let index = 0;
 let attempts = 0; //시도하는 개수, row
+let timer;
 
 function appStart() {
+  const displayGameOver = () => {
+    const div = document.createElement("div"); // div라는 element 만듦
+    div.innerText = "게임이 종료됐습니다.";
+    div.style =
+      "display:flex; justify-content:center; align-items:center; position:absolute; top:35vh; left:44vw; background-color:white; width:200px; height:100px;"; //css 코드 그대로 작성, absolute는 body를 기준으로 설정됨
+    document.body.appendChild(div); //div를 body에 삽입한다.
+  };
   //로직들
   const nextLine = () => {
     if (attempts === 6) return gameover();
@@ -12,7 +20,8 @@ function appStart() {
 
   const gameover = () => {
     window.removeEventListener("keydown", handleKeydown); // 게임이 종료되면 key 입력이 되지 않음
-    
+    displayGameOver();
+    clearInterval(timer); // 게임이 끝나면 interval을 clear 시킴 => 타이머 멈춤
   };
 
   const handleEnterKey = () => {
@@ -26,6 +35,7 @@ function appStart() {
 
       const 입력한_글자 = block.innerText;
       const 정답_글자 = 정답[i];
+
       if (입력한_글자 === 정답_글자) {
         맞은_갯수 += 1;
         block.style.backgroundColor = "#6baa64";
@@ -41,15 +51,30 @@ function appStart() {
     else nextLine();
   };
 
+  //backspace 눌렀을 때 지워지도록
+  const handleBackspace = () => {
+    if (index > 0) {
+      const preBlock = document.querySelector(
+        `.board-block[data-index='${attempts}${index - 1}']`
+      );
+      preBlock.innerText = "";
+    }
+    if (index !== 0) index -= 1;
+  };
+
   const handleKeydown = (event) => {
     const key = event.key.toUpperCase(); //현재 키
     const keyCode = event.keyCode; //현재 키 코드
     const thisBlock = document.querySelector(
       `.board-block[data-index='${attempts}${index}']`
-    ); //board-block이라는 클래스를 가지면서 data-index가 00인 값을 뽑는다
+    ); //board-block이라는 클래스를 가지면서 data-index가 [attemps][index]인 값을 뽑는다
 
+    if (event.key === "Backspace") {
+      // backspace 키 누르면 지워짐
+      handleBackspace();
+    }
     // 단어가 다 입력 됐을 때
-    if (index === 5) {
+    else if (index === 5) {
       //엔터키 눌렀을 때
       if (event.key === "Enter") handleEnterKey();
       else return; //함수 밖으로 나옴 -> 밑의 코드들은 실행되지 않음
@@ -59,6 +84,20 @@ function appStart() {
       index += 1;
     }
   };
+
+  const startTimer = () => {
+    const 시작_시간 = new Date();
+    function setTime() {
+      const 현재_시간 = new Date();
+      const 흐른_시간 = new Date(현재_시간 - 시작_시간);
+      const 분 = 흐른_시간.getMinutes().toString().padStart(2, "0");
+      const 초 = 흐른_시간.getSeconds().toString().padStart(2, "0");
+      timeh1 = document.querySelector("#time");
+      timeh1.innerText = `time: ${분}:${초}`;
+    }
+    timer = setInterval(setTime, 1000); // setInterval의 id를 저장, 몇 번째 inteval이 돌고 있는지 control 할 수 있게 됨
+  };
+  startTimer();
   window.addEventListener("keydown", handleKeydown);
 }
 appStart(); //함수 호출
