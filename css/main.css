@@ -3,7 +3,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px; /* row들을 떨어뜨림 */
+  gap: 5px; /* 6개의 row들을 떨어뜨림 */
   padding: 10px 0 10px 0;
 }
 .board-row {
@@ -23,7 +23,6 @@ main {
   font-weight: bold;
   font-size: 19px;
 }
-
 #time {
   font-weight: bold;
 }
