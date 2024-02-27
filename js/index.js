@@ -13,7 +13,7 @@ function appStart() {
   };
   //로직들
   const nextLine = () => {
-    if (attempts === 5) {
+    if (attempts === 6) {
       displayGameOver();
       return gameover();
     }
