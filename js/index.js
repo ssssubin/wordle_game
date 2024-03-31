@@ -3,16 +3,18 @@ let index = 0;
 let attempts = 0; //시도하는 개수, row
 let timer;
 const rotate = [{ transform: "rotate(360deg)" }];
+const scale = [{ transform: "scale(1.5)" }];
 const clickKey = document.querySelector("footer");
 
 function appStart() {
   //정답 못 맞췄을 때
   const FailGameOver = () => {
-    const div = document.createElement("div"); // div라는 element 만듦
-    div.innerText = "실패!!! 게임이 종료됐습니다.";
-    div.style =
-      "display:flex; justify-content:center; align-items:center; position:absolute; top:35vh; left:42vw; background-color:white; font-weight:bold; width:250px; height:100px;"; //css 코드 그대로 작성, absolute는 body를 기준으로 설정됨
-    document.body.appendChild(div); //div를 body에 삽입한다.
+    const fail = document.createElement("div"); // div라는 element 만듦
+    fail.innerText = "실패!!! 게임이 종료됐습니다.";
+    fail.style =
+      "display:flex; justify-content:center; align-items:center; position:absolute; top:35vh; left:42vw; background-color:#d4d6da; font-weight:bold; width:250px; height:100px;"; //css 코드 그대로 작성, absolute는 body를 기준으로 설정됨
+    document.body.appendChild(fail); //div를 body에 삽입한다.
+    fail.animate(scale, { fill: "forwards", duration: 2000 });
   };
 
   // 정답을 맞췄을 때
@@ -20,7 +22,8 @@ function appStart() {
     const good = document.createElement("div");
     good.innerText = "축하합니다! 정답입니다!!!!";
     good.style =
-      "display:flex; justify-content:center; align-items:center; position:absolute; top:35vh; left:44vw; background-color:#6baa64; color:white; font-weight:bold; width:200px; height:100px; transition: all 2s ease-in-out;";
+      "display:flex; justify-content:center; align-items:center; position:absolute; top:35vh; left:44vw; background-color:#6baa64; color:white; font-weight:bold; width:200px; height:100px;";
+
     document.body.appendChild(good);
     good.animate(rotate, 2000);
   };
